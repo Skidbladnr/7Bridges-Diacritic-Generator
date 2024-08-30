@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const outputDiv = document.getElementById('output');
         outputDiv.innerHTML = '';
 
-        const diacriticChance = 30; // 30% chance of a letter having a diacritic
+        const diacriticChance = document.getElementById('diacriticChance').value; // Allows the user to choose the chance (in %) that a letter will be generated with a diacritic
 
         for (let char of input) {
             let span = document.createElement('span');
@@ -99,5 +99,17 @@ document.addEventListener('DOMContentLoaded', function() {
             outputDiv.appendChild(span);
         }
     }
+
+    // Update diacritic value display as the slider changes
+    const diacriticChanceInput = document.getElementById('diacriticChance');
+    const diacriticValueDisplay = document.getElementById('diacriticValue');
+    diacriticChanceInput.addEventListener('input', function() {
+        diacriticValueDisplay.textContent = `${diacriticChanceInput.value}%`;
+        styleText()
+    });
+
+    document.getElementById('userInput').addEventListener('input', function() {
+        styleText(); // Update text style when user types
+    });
     window.styleText = styleText;
 });
