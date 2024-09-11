@@ -6,14 +6,26 @@ document.addEventListener('DOMContentLoaded', function() {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    // Generates a random font size using the getRandomInt function (min, max)
+    // Function to generate a random font size using the getRandomInt function (min, max)
     function getRandomFontSize() {
         return getRandomInt(48, 62) + 'px';
     }
 
-    // Chooses a random font family out of the ttfs available
+    // Function to choose a random font family out of the ttfs available
     function getRandomFontFamily() {
-        const fonts = ['Futura Light', 'Futura Regular', 'Futura Bold', 'Futura Round', 'Futura Std Book'];
+        const fonts = [
+            'Futura Light', 
+            'Futura Light Oblique', 
+            'Futura Regular', 
+            'Futura Heavy', 
+            'Futura Heavy Oblique', 
+            'Futura Bold', 
+            'Futura Bold Oblique', 
+            'Futura Extra Bold', 
+            'Futura Extra Bold Oblique', 
+            'Futura Book', 
+            'Futura Book Oblique' 
+        ];
         return fonts[getRandomInt(0, fonts.length - 1)];
     }
 
@@ -23,93 +35,105 @@ document.addEventListener('DOMContentLoaded', function() {
         return weights[getRandomInt(0, weights.length - 1)];
     }
 
-    // Applies random diacritic to the font(experimental)
-    function getRandomDiacritic() {
-        const diacritics = [
-            '\u0300', // grave accent
-            '\u0301', // acute accent
-            '\u0302', // circumflex accent
-            '\u0303', // tilde
-            '\u0304', // macron
-            '\u0305', // overline
-            '\u0306', // breve
-            '\u0307', // dot above
-            '\u0308', // diaeresis
-            '\u0309', // hook above
-            '\u030A', // ring above
-            '\u030B', // double acute accent
-            '\u030C', // caron
-            '\u030D', // vertical line above
-            '\u030E', // double vertical line above
-            '\u030F', // inverted breve
-            '\u0310', // double grave accent
-            '\u0311', // inverted double grave accent
-            '\u0312', // candrabindu
-            '\u0313', // inverted breve
-            '\u0314', // tilde overlay
-            '\u0315', // double tilde
-            '\u0316', // combining short stroke overlay
-            '\u0317', // combining long stroke overlay
-            '\u0318', // combining right half ring
-            '\u0319', // combining inverted bridge
-            '\u031A', // combining left half ring
-            '\u031B', // combining palatalized hook
-            '\u031C', // combining retroflex hook
-            '\u031D', // combining dot below
-            '\u031E', // combining diaeresis below
-            '\u031F', // combining ring below
-            '\u0320', // combining palatalized hook below
-            '\u0321', // combining retroflex hook below
-            '\u0322', // combining dot above
-            '\u0323', // combining dot below
-            '\u0324', // combining circumflex accent below
-            '\u0325', // combining breve below
-            '\u0326', // combining ring below
-            '\u0327', // combining cedilla
-            '\u0328', // combining ogonek
-            '\u0329', // combining vertical line below
-            '\u032A', // combining bridge above
-            '\u032B', // combining comma below
-            '\u032C', // combining cedilla
-            '\u032D', // combining ogonek
-            '\u032E', // combining vertical line below
-            '\u032F', // combining comma above
-        ];
-        return diacritics[getRandomInt(0, diacritics.length - 1)];
-    }
-
+    // Function to style the text using the above functions and apply them
     function styleText() {
         const input = document.getElementById('userInput').value;
         const outputDiv = document.getElementById('output');
         outputDiv.innerHTML = '';
 
-        const diacriticChance = document.getElementById('diacriticChance').value; // Allows the user to choose the chance (in %) that a letter will be generated with a diacritic
-
         for (let char of input) {
             let span = document.createElement('span');
-            const shouldAddDiacritic = getRandomInt(1, 100) <= diacriticChance;
-                if (shouldAddDiacritic) {
-                    span.textContent = char + getRandomDiacritic();
-                } else {
-                    span.textContent = char;
-                }
             span.style.fontFamily = getRandomFontFamily();
             span.style.fontSize = getRandomFontSize();
             span.style.fontWeight = getRandomWeight();
+            span.textContent = char;  // Display the original character
+
             outputDiv.appendChild(span);
         }
     }
 
-    // Update diacritic value display as the slider changes
-    const diacriticChanceInput = document.getElementById('diacriticChance');
-    const diacriticValueDisplay = document.getElementById('diacriticValue');
-    diacriticChanceInput.addEventListener('input', function() {
-        diacriticValueDisplay.textContent = `${diacriticChanceInput.value}%`;
+    function generateSVG(container) {
+        const svgHeader = '<?xml version="1.0" encoding="UTF-8"?>\n' +
+            '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 800 600">\n' +
+            '<rect x="0" y="0" width="100%" height="100%" fill="transparent"/>\n'; // Ensure transparent background
+
+        const svgFooter = '</svg>';
+
+        let svgContent = '';
+        const children = container.querySelectorAll('span');
+
+        children.forEach(child => {
+            const style = getComputedStyle(child);
+            const fontFamily = style.fontFamily;
+            const fontSize = style.fontSize;
+            const color = style.color;
+            const x = child.getBoundingClientRect().left - container.getBoundingClientRect().left;
+            const y = child.getBoundingClientRect().top - container.getBoundingClientRect().top;
+
+            svgContent += `<text x="${x}" y="${y}" font-family="${fontFamily}" font-size="${fontSize}" fill="${color}">${child.textContent}</text>\n`;
+        });
+
+        return svgHeader + svgContent + svgFooter;
+    }
+
+
+    function downloadImage(type) {
+        const inputText = document.getElementById('userInput').value;
+
+        if (!inputText) {
+            alert('Please enter some text!');
+            return;
+        }
+
+        const outputDiv = document.getElementById('output');
+        html2canvas(outputDiv, {
+            backgroundColor: 'rgba(0, 0, 0, 0)', 
+            removeContainer: true,
+        }).then(canvas => {
+            const link = document.createElement('a');
+            
+            // Generate a valid filename from the input text (limit length, replace unsafe characters)
+            let fileName = inputText.trim().replace(/[^a-z0-9]/gi, '_').substring(0, 20);
+            
+            // Ensure there's a fallback in case the input is empty
+            fileName = fileName || 'styled-text';
+            
+            if (type === 'png') {
+                link.href = canvas.toDataURL('image/png');
+                link.download = `${fileName}.png`;
+            } else if (type === 'svg') {
+                const svgData = generateSVG(outputDiv);
+                const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+                const url = URL.createObjectURL(svgBlob);
+                link.href = url;
+                link.download = `${fileName}.svg`;
+            }
+            
+            link.click();
+        });
+    }
+
+    // Waits for user input and then updates the text on screen to reflect input
+    document.getElementById('userInput').addEventListener('input', function() {
+        styleText(); 
+    });
+
+    // Allows for user to regenerate the randomized text
+    document.getElementById('regenerateText').addEventListener('click', function() {
         styleText()
     });
 
-    document.getElementById('userInput').addEventListener('input', function() {
-        styleText(); // Update text style when user types
+    window.styleText = styleText;
+
+     // Allows for PNG downloads using the html2canvas library
+     document.getElementById('downloadPNG').addEventListener('click', function() {
+        downloadImage('png')
     });
+
+    // Allows for SVG downloads using the html2canvas library
+    document.getElementById('downloadSVG').addEventListener('click', function() {
+        downloadImage('svg')
+    });
+
     window.styleText = styleText;
 });

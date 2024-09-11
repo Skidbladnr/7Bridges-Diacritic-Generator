@@ -5,73 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Text Styler Web App</title>
     <link rel="stylesheet" href="styles.css">
-    <style>
-        /* Add some basic styling */
-        body {
-            font-family: 'Futura Bold', sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            color: #333;
-            text-align: center;
-        }
-        header {
-            background-color: #209e9e;
-            color: white;
-            padding: 10px 0;
-        }
-        footer {
-            background-color: #209e9e;
-            color: white;
-            padding: 10px 0;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 2px solid #007BFF;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-        button {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        #output {
-            margin-top: 20px;
-            font-size: 18px;
-            line-height: 1.6;
-        }
-        .slider-container {
-            margin: 20px 0;
-        }
-        #diacriticChance {
-            width: 100%;
-        }
-        #diacriticValue {
-            font-size: 16px;
-        }
-    </style>
 </head>
 <body>
     <header>
@@ -81,21 +14,25 @@
     <div class="container">
         <h2>Enter Your Text</h2>
         <input type="text" id="userInput" placeholder="Type something here..." />
-        <div class="slider-container">
-            <label for="diacriticChance">Diacritic Chance: <span id="diacriticValue">50%</span></label>
-            <input type="range" id="diacriticChance" min="0" max="100" value="50">
-        </div>
+        <button id="regenerateText">↻</button>
+        <br></br>
         <div id="output"></div>
         <br></br>
-        <button onclick="styleText()">Style Text</button>
-
-        
+        <div class="download-container">
+            <button id="downloadButton">Download</button>
+            <div id="formatDropdown" class="dropdown">
+                <a href="#" id="downloadSVG">SVG</a>
+                <a href="#" id="downloadPNG">PNG</a>
+            </div>
+        </div>
     </div>
 
     <footer>
-        <p>&copy; Fueled By Coffee. No rights reserved lol</p>
+        <p>&copy; Fueled By Coffee. Hi Travis</p>
     </footer>
 
     <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
 </body>
 </html>
