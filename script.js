@@ -53,6 +53,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function generateSVG(container) {
+        const svgWidth = container.offsetWidth;
+        const svgHeight = container.offsetHeight;
         const svgHeader = '<?xml version="1.0" encoding="UTF-8"?>\n' +
             '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 800 600">\n' +
             '<rect x="0" y="0" width="100%" height="100%" fill="transparent"/>\n'; // Ensure transparent background
@@ -87,6 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const outputDiv = document.getElementById('output');
         html2canvas(outputDiv, {
+            scale: 20,
             backgroundColor: 'rgba(0, 0, 0, 0)', 
             removeContainer: true,
         }).then(canvas => {
