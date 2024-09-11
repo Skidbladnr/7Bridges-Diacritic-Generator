@@ -85,7 +85,9 @@ body {
 
 .container {
     display: inline-block;
-    text-align: center;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
 }
 
 input {
@@ -98,8 +100,60 @@ input {
 button {
     padding: 10px 20px;
     font-size: 16px;
-    margin-left: 10px;
+
     cursor: pointer;
+}
+
+.dropdown {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 100px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown label {
+    display: block;
+    padding: 8px 12px;
+    
+}
+
+
+/* Show advanced options dropdown on button click and hover */
+#advancedOptionsToggle:hover + #advancedOptions,
+#advancedOptions:focus-within {
+    display: block;
+}
+
+/* Hide dropdown when clicking outside */
+body {
+    position: relative; /* Added to ensure the dropdown hides properly */
+}
+
+#advancedOptions {
+    display: none;
+}
+
+#advancedOptionsToggle:focus + #advancedOptions,
+#advancedOptionsToggle:hover + #advancedOptions {
+    display: block;
+}
+
+/* Ensure the dropdown stays visible on hover */
+#advancedOptions:hover {
+    display: block;
+}
+
+.dropdown a {
+    color: black;
+    padding: 8px 12px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown a:hover {
+    background-color: #f1f1f1;
 }
 
 /* Dropdown button styles */
@@ -115,26 +169,6 @@ button {
     cursor: pointer;
 }
 
-.dropdown {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 100px;
-    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-    z-index: 1;
-}
-
-.dropdown a {
-    color: black;
-    padding: 8px 12px;
-    text-decoration: none;
-    display: block;
-}
-
-.dropdown a:hover {
-    background-color: #f1f1f1;
-}
-
 /* Show dropdown on button click */
 .download-container:hover .dropdown {
     display: block;
@@ -146,5 +180,6 @@ button {
     white-space: pre-wrap;
     display: inline-block;
     padding: 10px;
+    max-width: 100%;
     background-color: transparent;
 }

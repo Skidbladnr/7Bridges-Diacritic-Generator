@@ -1,5 +1,6 @@
 
 document.addEventListener('DOMContentLoaded', function() {
+    let caseRandomizationEnabled = false;
 
     // Function to generate randomized integers between the mix and max values provided
     function getRandomInt(min, max) {
@@ -10,6 +11,12 @@ document.addEventListener('DOMContentLoaded', function() {
     function getRandomFontSize() {
         return getRandomInt(48, 62) + 'px';
     }
+    
+    // Function to randomize text case
+    function getRandomCase(char) {
+        return Math.random() < 0.5 ? char.toUpperCase() : char.toLowerCase();
+    }
+
 
     // Function to choose a random font family out of the ttfs available
     function getRandomFontFamily() {
@@ -46,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
             span.style.fontFamily = getRandomFontFamily();
             span.style.fontSize = getRandomFontSize();
             span.style.fontWeight = getRandomWeight();
-            span.textContent = char;  // Display the original character
+            span.textContent = caseRandomizationEnabled ? getRandomCase(char) : char;
 
             outputDiv.appendChild(span);
         }
@@ -66,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         children.forEach(child => {
             const style = getComputedStyle(child);
-            const fontFamily = style.fontFamily;
+            const fontFamily = style.fontFamily.replace(/"/g, "'");
             const fontSize = style.fontSize;
             const color = style.color;
             const x = child.getBoundingClientRect().left - container.getBoundingClientRect().left;
@@ -126,7 +133,11 @@ document.addEventListener('DOMContentLoaded', function() {
         styleText()
     });
 
-    window.styleText = styleText;
+    // Event listener for checkbox to toggle case randomization
+    document.getElementById('caseRandomizationCheckbox').addEventListener('change', function() {
+        caseRandomizationEnabled = this.checked;
+        styleText(); // Apply the style with updated setting
+    });
 
      // Allows for PNG downloads using the html2canvas library
      document.getElementById('downloadPNG').addEventListener('click', function() {
@@ -136,6 +147,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // Allows for SVG downloads using the html2canvas library
     document.getElementById('downloadSVG').addEventListener('click', function() {
         downloadImage('svg')
+    });
+
+    // Toggle output display between inline-block and inline-flex
+    document.getElementById('toggleDisplayCheckbox').addEventListener('change', function() {
+        const outputDiv = document.getElementById('output');
+        if (this.checked) {
+            outputDiv.style.display = 'inline-flex';
+        } else {
+            outputDiv.style.display = 'inline-block';
+        }
     });
 
     window.styleText = styleText;
