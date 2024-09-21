@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', function() {
     let caseRandomizationEnabled = false;
     let gifModeEnabled = false;
@@ -7,7 +6,16 @@ document.addEventListener('DOMContentLoaded', function() {
     let captureInterval;
     let gif;
 
-    // Function to generate randomized integers between the mix and max values provided
+    // Toggle Advanced Options
+    const advancedOptionsToggle = document.getElementById('advancedOptionsToggle');
+    const advancedOptions = document.getElementById('advancedOptions');
+
+    advancedOptionsToggle.addEventListener('click', function() {
+        advancedOptions.classList.toggle('visible');
+        this.classList.toggle('active');
+    });
+
+    // Function to generate randomized integers between the min and max values provided
     function getRandomInt(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
@@ -22,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return Math.random() < 0.5 ? char.toUpperCase() : char.toLowerCase();
     }
 
-    // Function to choose a random font family out of the ttfs available
+    // Function to choose a random font family from the available fonts
     function getRandomFontFamily() {
         const fonts = [
             'Futura Light', 
@@ -48,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to style the text using the above functions and apply them
     function styleText() {
-        const input = document.getElementById('userInput').value;
+        const input = document.getElementById('userInput').value || 'Sample Text';
         const outputDiv = document.getElementById('output');
         outputDiv.innerHTML = '';
 
@@ -63,6 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Function to generate SVG (if needed)
     function generateSVG(container) {
         const svgWidth = container.offsetWidth;
         const svgHeight = container.offsetHeight;
@@ -89,6 +98,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return svgHeader + svgContent + svgFooter;
     }
 
+    // Function to download image in PNG or SVG format
     function downloadImage(type) {
         const inputText = document.getElementById('userInput').value;
 
@@ -104,12 +114,7 @@ document.addEventListener('DOMContentLoaded', function() {
             removeContainer: true,
         }).then(canvas => {
             const link = document.createElement('a');
-            
-            // Generate a valid filename from the input text (limit length, replace unsafe characters)
-            let fileName = inputText.trim().replace(/[^a-z0-9]/gi, '_').substring(0, 20);
-            
-            // Ensure there's a fallback in case the input is empty
-            fileName = fileName || 'styled-text';
+            let fileName = inputText.trim().replace(/[^a-z0-9]/gi, '_').substring(0, 20) || 'styled-text';
             
             if (type === 'png') {
                 link.href = canvas.toDataURL('image/png');
@@ -126,18 +131,16 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // GIF Animation Functions
     function startGifAnimation() {
-        console.log("Starting gif animation cycle...");
-        
         if (isAnimating) return;
 
         isAnimating = true;
         gif = new GIF({
             workers: 2,
             quality: 10,
-            transparent: 0x00000000, 
+            transparent: 0x00000000,
             workerScript: 'scripts/gif.worker.js',
-            
         });
 
         document.getElementById('startGif').style.display = 'none';
@@ -152,8 +155,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const outputDiv = document.getElementById('output');
         html2canvas(outputDiv, {
             backgroundColor: null,
-            logging: false, // Set to true if you want to see logs
-            useCORS: true, // Enable if cross-origin issues occur
+            logging: false,
+            useCORS: true,
         }).then(canvas => {
             gif.addFrame(canvas, { copy: true, delay: 1000 });
         });
@@ -180,57 +183,55 @@ document.addEventListener('DOMContentLoaded', function() {
         gif.render();
     }
 
-    // Waits for user input and then updates the text on screen to reflect input
-    document.getElementById('userInput').addEventListener('input', function() {
-        styleText(); 
-    });
+    // Event Listeners
 
-    // Allows for user to regenerate the randomized text
-    document.getElementById('regenerateText').addEventListener('click', function() {
-        styleText()
-    });
+    // Update text styling on user input
+    document.getElementById('userInput').addEventListener('input', styleText);
 
-    // Event listener for checkbox to toggle case randomization
+    // Regenerate text style on button click
+    document.getElementById('regenerateText').addEventListener('click', styleText);
+
+    // Toggle case randomization
     document.getElementById('caseRandomizationCheckbox').addEventListener('change', function() {
         caseRandomizationEnabled = this.checked;
-        styleText(); // Apply the style with updated setting
+        styleText();
     });
 
+    // Toggle GIF Mode
     document.getElementById('toggleGifMode').addEventListener('change', function() {
+        gifModeEnabled = this.checked;
+        const startGifButton = document.getElementById('startGif');
         if (gifModeEnabled) {
-            document.getElementById('startGif').style.display = 'none';
-            gifModeEnabled = false;
+            startGifButton.style.display = 'inline-block';
+        } else {
+            startGifButton.style.display = 'none';
+            // Stop animation if it's running
+            if (isAnimating) {
+                stopGifAnimation();
+            }
         }
-        else {
-            document.getElementById('startGif').style.display = 'inline-block';
-            gifModeEnabled = true;
-        }
-
     });
 
-     // Allows for PNG downloads using the html2canvas library
-     document.getElementById('downloadPNG').addEventListener('click', function() {
-        downloadImage('png')
+    // Download PNG
+    document.getElementById('downloadPNG').addEventListener('click', function() {
+        downloadImage('png');
     });
 
-    // Allows for SVG downloads using the html2canvas library
+    // Download SVG
     document.getElementById('downloadSVG').addEventListener('click', function() {
-        downloadImage('svg')
+        downloadImage('svg');
     });
 
-    // Toggle output display between inline-block and inline-flex
+    // Toggle display mode between inline-block and inline-flex
     document.getElementById('toggleDisplayCheckbox').addEventListener('change', function() {
         const outputDiv = document.getElementById('output');
-        if (this.checked) {
-            outputDiv.style.display = 'inline-flex';
-        } else {
-            outputDiv.style.display = 'inline-block';
-        }
+        outputDiv.style.display = this.checked ? 'inline-flex' : 'inline-block';
     });
 
     // Event listeners for GIF buttons
     document.getElementById('startGif').addEventListener('click', startGifAnimation);
     document.getElementById('stopGif').addEventListener('click', stopGifAnimation);
 
-    window.styleText = styleText;
+    // Initialize the text display
+    styleText();
 });

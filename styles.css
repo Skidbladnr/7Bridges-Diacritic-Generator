@@ -75,105 +75,218 @@
     font-style: normal;
 }
 
-body {
-    font-family: 'Futura Regular', sans-serif;
-    text-align: center;
-    margin-top: 50px;
-    background-color: #f0f0f0;
-    color: #333;
+/* Base Colors */
+:root {
+    --primary-color: #2C3E50;
+    --secondary-color: #34495E;
+    --accent-color: #3498DB;
+    --background-color: #ECF0F1;
+    --text-color: #000000;
+    --button-bg: #2980B9;
+    --button-hover-bg: #1F6391;
+    --border-color: #BDC3C7;
 }
 
-.container {
-    display: inline-block;
+/* Basic body styling */
+body {
+    font-family: 'Inter', 'Futura Regular', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    display: flex;
     flex-direction: column;
     align-items: center;
+    min-height: 100vh;
+}
+
+/* Header styling */
+header {
+    width: 100%;
+    padding: 15px 0;
+    background-color: var(--primary-color);
+    color: #fff;
+    text-align: center;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+/* Main container styling */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    padding: 30px;
     margin-top: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    max-width: 700px;
+    width: 90%;
+}
+
+/* Input and button section styling */
+.input-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    margin-bottom: 15px;
 }
 
 input {
+    flex: 1;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+input:focus {
+    border-color: var(--accent-color);
+}
+
+.icon-button {
+    border: none;
+    background-color: var(--button-bg);
+    color: #fff;
     padding: 10px;
     font-size: 16px;
-    width: 50%;
-    margin: 0 auto;
-}
-
-button {
-    padding: 10px 20px;
-    font-size: 16px;
-
+    border-radius: 20%;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.dropdown {
+.icon-button:hover {
+    background-color: var(--button-hover-bg);
+}
+
+/* Advanced options styling */
+.toggle-button {
+    background: none;
+    border: none;
+    color: var(--accent-color);
+    cursor: pointer;
+    font-size: 14px;
+    padding: 5px 0;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.toggle-button:hover {
+    color: var(--button-hover-bg);
+}
+
+.advanced-options {
     display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 100px;
-    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-    z-index: 1;
+    margin-top: 10px;
+    text-align: left;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid var(--border-color);
 }
 
-.dropdown label {
-    display: block;
-    padding: 8px 12px;
-    
-}
-
-
-/* Show advanced options dropdown on button click and hover */
-#advancedOptionsToggle:hover + #advancedOptions,
-#advancedOptions:focus-within {
+.advanced-options.visible {
     display: block;
 }
 
-/* Hide dropdown when clicking outside */
-body {
-    position: relative; /* Added to ensure the dropdown hides properly */
-}
-
-#advancedOptions {
-    display: none;
-}
-
-#advancedOptionsToggle:focus + #advancedOptions,
-#advancedOptionsToggle:hover + #advancedOptions {
+.advanced-options label {
     display: block;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: var(--text-color);
 }
 
-/* Ensure the dropdown stays visible on hover */
-#advancedOptions:hover {
-    display: block;
+.advanced-options input[type="checkbox"] {
+    margin-right: 8px;
 }
 
-.dropdown a {
-    color: black;
-    padding: 8px 12px;
-    text-decoration: none;
-    display: block;
+/* Primary button styling */
+.primary-button {
+    background-color: var(--button-bg);
+    border: none;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
 }
 
-.dropdown a:hover {
-    background-color: #f1f1f1;
+.primary-button:hover {
+    background-color: var(--button-hover-bg);
 }
 
-/* Dropdown button styles */
+/* Button group styling */
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* Download container styling */
 .download-container {
     position: relative;
     display: inline-block;
-    margin-top: 20px;
 }
 
 #downloadButton {
-    padding: 10px 20px;
-    font-size: 16px;
+    background-color: var(--button-bg);
+    border: none;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 8px;
     cursor: pointer;
 }
 
-/* Show dropdown on button click */
-.download-container:hover .dropdown {
+#downloadButton:hover {
+    background-color: var(--button-hover-bg);
+}
+
+/* Dropdown menu styling */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    min-width: 120px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    border-radius: 6px;
+    padding: 8px 0;
+    top: 100%;
+    left: 0;
+    border: 1px solid var(--border-color);
+}
+
+.dropdown-menu a {
+    color: var(--text-color);
+    padding: 8px 12px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+}
+
+.dropdown-menu a:hover {
+    background-color: var(--background-color);
+}
+
+/* Show dropdown on hover */
+.download-container:hover .dropdown-menu {
     display: block;
 }
 
+/* Output section styling */
 #output {
     margin-top: 20px;
     word-wrap: break-word;
@@ -181,5 +294,35 @@ body {
     display: inline-block;
     padding: 10px;
     max-width: 100%;
-    background-color: transparent;
+    background-color: #fff;
+    border-radius: 8px;
+}
+
+/* Footer styling */
+footer {
+    background-color: var(--primary-color);
+    width: 100%;
+    padding: 10px 0;
+    color: #fff;
+    text-align: center;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    margin-top: auto;
+}
+
+/* GIF buttons styling */
+#startGif, #stopGif {
+    background-color: var(--button-bg);
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+#startGif:hover, #stopGif:hover {
+    background-color: var(--button-hover-bg);
 }

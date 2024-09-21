@@ -1,50 +1,52 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Text Styler Web App</title>
+    <title>7 Bridges Text Randomizer</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- Link to Google Fonts for modern typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
-        <h1>Text Styler Web App</h1>
+        <h1>7 Bridges Text Randomizer</h1>
     </header>
 
     <div class="container">
         <h2>Enter Your Text</h2>
-        <button id="advancedOptionsToggle">+</button>
 
-        <div id="advancedOptions" class="dropdown">
-            <label><input type="checkbox" id="caseRandomizationCheckbox"> Rndm Case</label>
-            <label><input type="checkbox" id="toggleDisplayCheckbox"> Add flex</label>
+        <div class="input-section">
+            <input type="text" id="userInput" placeholder="Type something here..." />
+            <button id="regenerateText" class="icon-button" title="Regenerate Style">↻</button>
+        </div>
+
+        <button id="advancedOptionsToggle" class="toggle-button">Advanced Options +</button>
+        <div id="advancedOptions" class="advanced-options">
+            <label><input type="checkbox" id="caseRandomizationCheckbox"> Randomize Case</label>
+            <label><input type="checkbox" id="toggleDisplayCheckbox"> Add Flex</label>
             <label><input type="checkbox" id="toggleGifMode"> GIF Mode</label>
         </div>
-        <input type="text" id="userInput" placeholder="Type something here..." />
-        <button id="regenerateText" title="Click to regenerate the text with a new random style">↻</button>
-        <br></br>
+
         <div id="output"></div>
-        <br></br>
-        <div class="download-container">
-            <button id="downloadButton">Download</button>
-            <div id="formatDropdown" class="dropdown">
-                <a href="#" id="downloadSVG">SVG</a>
-                <a href="#" id="downloadPNG">PNG</a>
+
+        <div class="button-group">
+            <div class="download-container">
+                <button id="downloadButton" class="primary-button">Download</button>
+                <div id="formatDropdown" class="dropdown-menu">
+                    <a href="#" id="downloadSVG">SVG</a>
+                    <a href="#" id="downloadPNG">PNG</a>
+                </div>
             </div>
+            <button id="startGif" class="primary-button gif-button" style="display: none;">Start GIF Animation</button>
+            <button id="stopGif" class="primary-button gif-button" style="display: none;">Stop and Save GIF</button>
         </div>
-        <button id="startGif" class="gif-button" style="display: none;">Start GIF Animation</button>
-        <button id="stopGif" class="gif-button" style="display: none;">Stop and Save GIF</button>
     </div>
 
     <footer>
-        <p>&copy; Version 0.2.4</p>
+        <p>&copy; Version 0.3</p>
     </footer>
-
-    
     <script src="scripts/gif.js"></script>
-    <script src="script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
+    <script src="script.js"></script>
 </body>
 </html>
