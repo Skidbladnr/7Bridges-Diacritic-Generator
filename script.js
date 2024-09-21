@@ -1,6 +1,11 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     let caseRandomizationEnabled = false;
+    let gifModeEnabled = false;
+    let isAnimating = false; // State to track if GIF animation is running
+    let animationInterval;
+    let captureInterval;
+    let gif;
 
     // Function to generate randomized integers between the mix and max values provided
     function getRandomInt(min, max) {
@@ -16,7 +21,6 @@ document.addEventListener('DOMContentLoaded', function() {
     function getRandomCase(char) {
         return Math.random() < 0.5 ? char.toUpperCase() : char.toLowerCase();
     }
-
 
     // Function to choose a random font family out of the ttfs available
     function getRandomFontFamily() {
@@ -85,7 +89,6 @@ document.addEventListener('DOMContentLoaded', function() {
         return svgHeader + svgContent + svgFooter;
     }
 
-
     function downloadImage(type) {
         const inputText = document.getElementById('userInput').value;
 
@@ -123,6 +126,60 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    function startGifAnimation() {
+        console.log("Starting gif animation cycle...");
+        
+        if (isAnimating) return;
+
+        isAnimating = true;
+        gif = new GIF({
+            workers: 2,
+            quality: 10,
+            transparent: 0x00000000, 
+            workerScript: 'scripts/gif.worker.js',
+            
+        });
+
+        document.getElementById('startGif').style.display = 'none';
+        document.getElementById('stopGif').style.display = 'inline-block';
+
+        // Start styling text and capturing frames
+        animationInterval = setInterval(styleText, 1000); // Change text style every second
+        captureInterval = setInterval(captureFrame, 1000); // Capture frame every second
+    }
+
+    function captureFrame() {
+        const outputDiv = document.getElementById('output');
+        html2canvas(outputDiv, {
+            backgroundColor: null,
+            logging: false, // Set to true if you want to see logs
+            useCORS: true, // Enable if cross-origin issues occur
+        }).then(canvas => {
+            gif.addFrame(canvas, { copy: true, delay: 1000 });
+        });
+    }
+
+    function stopGifAnimation() {
+        clearInterval(animationInterval);
+        clearInterval(captureInterval);
+        isAnimating = false;
+
+        document.getElementById('stopGif').style.display = 'none';
+        document.getElementById('startGif').style.display = 'inline-block';
+
+        gif.on('finished', function(blob) {
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'animated_text.gif';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+
+        gif.render();
+    }
+
     // Waits for user input and then updates the text on screen to reflect input
     document.getElementById('userInput').addEventListener('input', function() {
         styleText(); 
@@ -137,6 +194,18 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('caseRandomizationCheckbox').addEventListener('change', function() {
         caseRandomizationEnabled = this.checked;
         styleText(); // Apply the style with updated setting
+    });
+
+    document.getElementById('toggleGifMode').addEventListener('change', function() {
+        if (gifModeEnabled) {
+            document.getElementById('startGif').style.display = 'none';
+            gifModeEnabled = false;
+        }
+        else {
+            document.getElementById('startGif').style.display = 'inline-block';
+            gifModeEnabled = true;
+        }
+
     });
 
      // Allows for PNG downloads using the html2canvas library
@@ -158,6 +227,10 @@ document.addEventListener('DOMContentLoaded', function() {
             outputDiv.style.display = 'inline-block';
         }
     });
+
+    // Event listeners for GIF buttons
+    document.getElementById('startGif').addEventListener('click', startGifAnimation);
+    document.getElementById('stopGif').addEventListener('click', stopGifAnimation);
 
     window.styleText = styleText;
 });

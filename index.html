@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -18,6 +19,7 @@
         <div id="advancedOptions" class="dropdown">
             <label><input type="checkbox" id="caseRandomizationCheckbox"> Rndm Case</label>
             <label><input type="checkbox" id="toggleDisplayCheckbox"> Add flex</label>
+            <label><input type="checkbox" id="toggleGifMode"> GIF Mode</label>
         </div>
         <input type="text" id="userInput" placeholder="Type something here..." />
         <button id="regenerateText" title="Click to regenerate the text with a new random style">↻</button>
@@ -31,12 +33,16 @@
                 <a href="#" id="downloadPNG">PNG</a>
             </div>
         </div>
+        <button id="startGif" class="gif-button" style="display: none;">Start GIF Animation</button>
+        <button id="stopGif" class="gif-button" style="display: none;">Stop and Save GIF</button>
     </div>
 
     <footer>
         <p>&copy; Version 0.2.4</p>
     </footer>
 
+    
+    <script src="scripts/gif.js"></script>
     <script src="script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
