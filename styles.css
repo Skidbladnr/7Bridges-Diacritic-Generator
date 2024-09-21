@@ -326,3 +326,19 @@ footer {
 #startGif:hover, #stopGif:hover {
     background-color: var(--button-hover-bg);
 }
+/* Animation speed styling */
+#animationSpeedControl {
+    margin-top: 15px;
+    text-align: left;
+    width: 100%;
+}
+
+#animationSpeedControl label {
+    font-size: 14px;
+    color: var(--text-color);
+}
+
+#animationSpeedRange {
+    width: 100%;
+    margin-top: 5px;
+}

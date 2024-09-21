@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let animationInterval;
     let captureInterval;
     let gif;
+    let animationSpeed = 1; // Default animation speed (seconds per frame)
+    let intervalTime = animationSpeed * 1000;
 
     // Toggle Advanced Options
     const advancedOptionsToggle = document.getElementById('advancedOptionsToggle');
@@ -14,6 +16,27 @@ document.addEventListener('DOMContentLoaded', function() {
         advancedOptions.classList.toggle('visible');
         this.classList.toggle('active');
     });
+
+    const animationSpeedControl = document.getElementById('animationSpeedControl');
+    const animationSpeedRange = document.getElementById('animationSpeedRange');
+    const animationSpeedValue = document.getElementById('animationSpeedValue');
+
+    // Update animation speed display
+    animationSpeedRange.addEventListener('input', function() {
+        animationSpeed = parseFloat(this.value);
+        animationSpeedValue.textContent = animationSpeed;
+        intervalTime = animationSpeed * 1000;
+
+        if (isAnimating) {
+            // Clear existing intervals
+            clearInterval(animationInterval);
+            clearInterval(captureInterval);
+
+            // Restart intervals with new speed
+            animationInterval = setInterval(styleText, intervalTime);
+            captureInterval = setInterval(captureFrame, intervalTime);
+        }
+    })
 
     // Function to generate randomized integers between the min and max values provided
     function getRandomInt(min, max) {
@@ -145,10 +168,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
         document.getElementById('startGif').style.display = 'none';
         document.getElementById('stopGif').style.display = 'inline-block';
+        
+        intervalTime = animationSpeed * 1000;
+
+        styleText(); // Initial styling
+        captureFrame(); // Capture initial frame
 
         // Start styling text and capturing frames
-        animationInterval = setInterval(styleText, 1000); // Change text style every second
-        captureInterval = setInterval(captureFrame, 1000); // Capture frame every second
+        animationInterval = setInterval(styleText, intervalTime); // Change text style
+        captureInterval = setInterval(captureFrame, intervalTime); // Capture frames
     }
 
     function captureFrame() {
@@ -158,7 +186,7 @@ document.addEventListener('DOMContentLoaded', function() {
             logging: false,
             useCORS: true,
         }).then(canvas => {
-            gif.addFrame(canvas, { copy: true, delay: 1000 });
+            gif.addFrame(canvas, { copy: true, delay: intervalTime });
         });
     }
 
@@ -203,8 +231,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const startGifButton = document.getElementById('startGif');
         if (gifModeEnabled) {
             startGifButton.style.display = 'inline-block';
+            animationSpeedControl.style.display = 'block'
         } else {
             startGifButton.style.display = 'none';
+            animationSpeedControl.style.display = 'none';
             // Stop animation if it's running
             if (isAnimating) {
                 stopGifAnimation();
