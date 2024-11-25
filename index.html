@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="shortcut icon" href="./public/7bridgesLogo.ico">
     <meta charset="UTF-8">
     <title>7 Bridges Text Randomizer</title>
     <link rel="stylesheet" href="styles.css">
@@ -11,7 +12,7 @@
     <header>
         <h1>7 Bridges Text Randomizer</h1>
     </header>
-
+    
     <div class="container">
         <h2>Enter Your Text</h2>
 
@@ -48,10 +49,30 @@
     </div>
 
     <footer>
-        <p>&copy; Version 0.3.3</p>
-    </footer>
+        <p>&copy; <a href="#" id="footerVersion">Version 0.3.7</a></p>
+    </footer>    
     <script src="scripts/gif.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="script.js"></script>
+
+    <!-- Changelog Modal -->
+    <div id="changelogModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closeChangelog">&times;</span>
+            <h2>Changelog</h2>
+            <ul>
+                <li><strong>Version 0.3.7</strong> - Added a changelog to record changes.</li>
+                <li><strong>Version 0.3.6.1</strong> - Fixed an issue with GIF generation.</li>
+                <li><strong>Version 0.3.6</strong> - Added sentence tracking adjustment using left and right arrow keys.</li>
+                <li><strong>Version 0.3.5</strong> - Improved font weight transitions between characters. </li>
+                <li><strong>Version 0.3.4</strong> - Prevented the first character of each generation from utilizing certain fonts.</li>
+                <li><strong>Version 0.3.3</strong> - Added a speed control function for gif animation.</li>
+                <li><strong>Version 0.3</strong> - Improved UI, certain code components reconfigured for understandability and cleanliness.</li>
+                <li><strong>Version 0.2.5</strong> - Added gif mode, allowing users to animate randomized fonts and save them as a gif.</li>
+                <!-- Add more entries as needed -->
+            </ul>
+        </div>
+    </div>
+    <button id="openChangelog" class="secondary-button">View Changelog</button>
 </body>
 </html>

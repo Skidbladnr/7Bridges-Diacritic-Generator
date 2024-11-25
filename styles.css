@@ -342,3 +342,72 @@ footer {
     width: 100%;
     margin-top: 5px;
 }
+
+/* Modal container */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.5); /* Black with opacity */
+}
+
+/* Modal content */
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto; /* Centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Adjust as needed */
+    max-width: 600px; /* Max width */
+    border-radius: 5px;
+    position: relative;
+    text-align: left;
+}
+
+/* Close button */
+.close-button {
+    color: #aaa;
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: #000;
+    text-decoration: none;
+}
+
+/* Secondary button style for 'View Changelog' */
+.secondary-button {
+    background-color: #e0e0e0;
+    color: #333;
+    padding: 10px 20px;
+    margin: 10px 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+.secondary-button:hover {
+    background-color: #d5d5d5;
+}
+
+/* Changelog list */
+#changelogModal ul {
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+#changelogModal li {
+    margin-bottom: 10px;
+}

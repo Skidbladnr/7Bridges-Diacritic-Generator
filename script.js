@@ -7,6 +7,66 @@ document.addEventListener('DOMContentLoaded', function() {
     let gif;
     let animationSpeed = 1; // Default animation speed (seconds per frame)
     let intervalTime = animationSpeed * 1000;
+    let trackingValue = 0; // Initial tracking value in pixels
+    
+    const fonts = [
+        'Futura Light', 
+        'Futura Light Oblique', 
+        'Futura Regular', 
+        'Futura Heavy', 
+        'Futura Heavy Oblique', 
+        'Futura Bold', 
+        'Futura Bold Oblique', 
+        'Futura Extra Bold', 
+        'Futura Extra Bold Oblique', 
+        'Futura Book', 
+        'Futura Book Oblique' 
+    ];
+
+    const fontsExcludingLightAndExtraBold = [
+        'Futura Regular', 
+        'Futura Heavy', 
+        'Futura Heavy Oblique', 
+        'Futura Bold', 
+        'Futura Bold Oblique', 
+        'Futura Book', 
+        'Futura Book Oblique' 
+    ];
+
+     // Get the modal
+     const changelogModal = document.getElementById('changelogModal');
+
+     // Get the button that opens the modal
+     const openChangelogBtn = document.getElementById('openChangelog');
+ 
+     // Get the <span> element that closes the modal
+     const closeChangelogBtn = document.getElementById('closeChangelog');
+ 
+     // Get the footer version link
+     const footerVersionLink = document.getElementById('footerVersion');
+ 
+     // When the user clicks on the button, open the modal
+     openChangelogBtn.addEventListener('click', function() {
+         changelogModal.style.display = 'block';
+     });
+ 
+     // When the user clicks on the footer version, open the modal
+     footerVersionLink.addEventListener('click', function(event) {
+         event.preventDefault(); // Prevent default anchor behavior
+         changelogModal.style.display = 'block';
+     });
+ 
+     // When the user clicks on <span> (x), close the modal
+     closeChangelogBtn.addEventListener('click', function() {
+         changelogModal.style.display = 'none';
+     });
+ 
+     // When the user clicks anywhere outside of the modal, close it
+     window.addEventListener('click', function(event) {
+         if (event.target == changelogModal) {
+             changelogModal.style.display = 'none';
+         }
+     });
 
     // Toggle Advanced Options
     const advancedOptionsToggle = document.getElementById('advancedOptionsToggle');
@@ -55,27 +115,65 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to choose a random font family from the available fonts
     function getRandomFontFamily() {
-        const fonts = [
-            'Futura Light', 
-            'Futura Light Oblique', 
-            'Futura Regular', 
-            'Futura Heavy', 
-            'Futura Heavy Oblique', 
-            'Futura Bold', 
-            'Futura Bold Oblique', 
-            'Futura Extra Bold', 
-            'Futura Extra Bold Oblique', 
-            'Futura Book', 
-            'Futura Book Oblique' 
-        ];
         return fonts[getRandomInt(0, fonts.length - 1)];
     }
 
-    // Function to choose a random font weight for the text
-    function getRandomWeight() {
-        const weights = [100, 200, 300, 400, 500, 600, 700, 800, 900];
-        return weights[getRandomInt(0, weights.length - 1)];
+    function getRandomFontFamilyUpdated() {
+        return fontsExcludingLightAndExtraBold[getRandomInt(0, fontsExcludingLightAndExtraBold.length - 1)];
     }
+
+    // Function to choose a random font weight for the text
+    function getRandomWeight(previousWeight) {
+        const weights = [100, 200, 300, 400, 500, 600, 700, 800, 900];
+        if (previousWeight === undefined) {
+            return weights[getRandomInt(0, weights.length - 1)];
+        } else { // Find the index of the previous weight
+        const prevIndex = weights.indexOf(previousWeight);
+
+        // Determine the allowable indices within 2 steps
+        const minIndex = Math.max(0, prevIndex - 2);
+        const maxIndex = Math.min(weights.length - 1, prevIndex + 2);
+
+        // Generate a random index within the allowable range
+        const newIndex = getRandomInt(minIndex, maxIndex);
+
+        return weights[newIndex];
+        }
+    }
+
+    // Function to decrease tracking
+    function decreaseTracking() {
+        trackingValue -= 1;
+        if (trackingValue < -10) trackingValue = -10; // Set minimum limit
+        adjustTracking(); // Adjust tracking without changing styles
+    }
+
+    // Function to increase tracking
+    function increaseTracking() {
+        trackingValue += 1; // Increase tracking by 1px
+        if (trackingValue > 50) trackingValue = 50; // Set maximum limit
+        adjustTracking(); // Adjust tracking without changing styles
+    }
+
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'ArrowRight') {
+            increaseTracking();
+        } else if (event.key === 'ArrowLeft') {
+            decreaseTracking();
+        }
+    });
+
+    function adjustTracking() {
+        const outputDiv = document.getElementById('output');
+        const spans = outputDiv.querySelectorAll('span');
+        spans.forEach((span, index) => {
+            if (index < spans.length - 1) {
+                span.style.marginRight = trackingValue + 'px';
+            } else {
+                span.style.marginRight = '0px';
+            }
+        });
+    }    
 
     // Function to style the text using the above functions and apply them
     function styleText() {
@@ -83,13 +181,33 @@ document.addEventListener('DOMContentLoaded', function() {
         const outputDiv = document.getElementById('output');
         outputDiv.innerHTML = '';
 
-        for (let char of input) {
+        let previousWeight;
+    
+        for (let i = 0; i < input.length; i++) {
+            let char = input[i];
             let span = document.createElement('span');
-            span.style.fontFamily = getRandomFontFamily();
+            
+            if (i === 0) {
+                // For the first character, exclude 'light' and 'extra bold' fonts
+                span.style.fontFamily = getRandomFontFamilyUpdated();
+            } else {
+                // For other characters, use any font
+                span.style.fontFamily = getRandomFontFamily();
+            }
+            
+            let weight = getRandomWeight(previousWeight)
+            span.style.fontWeight = weight;
+            previousWeight = weight;
+
             span.style.fontSize = getRandomFontSize();
-            span.style.fontWeight = getRandomWeight();
             span.textContent = caseRandomizationEnabled ? getRandomCase(char) : char;
 
+            // Apply tracking value as margin-right, except for the last character
+            span.style.display = 'inline-block'; // Ensure margin works
+            if (i < input.length - 1) {
+                span.style.marginRight = trackingValue + 'px';
+            }
+        
             outputDiv.appendChild(span);
         }
     }
@@ -154,6 +272,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Function to update text and adjust tracking
+    function updateTextAndTracking() {
+        styleText();
+        adjustTracking();
+    }    
+
     // GIF Animation Functions
     function startGifAnimation() {
         if (isAnimating) return;
@@ -171,13 +295,29 @@ document.addEventListener('DOMContentLoaded', function() {
         
         intervalTime = animationSpeed * 1000;
 
-        styleText(); // Initial styling
+        updateTextAndTracking(); // Initial styling
         captureFrame(); // Capture initial frame
 
         // Start styling text and capturing frames
         animationInterval = setInterval(styleText, intervalTime); // Change text style
         captureInterval = setInterval(captureFrame, intervalTime); // Capture frames
     }
+
+    animationSpeedRange.addEventListener('input', function() {
+        animationSpeed = parseFloat(this.value);
+        animationSpeedValue.textContent = animationSpeed;
+        intervalTime = animationSpeed * 1000;
+    
+        if (isAnimating) {
+            // Clear existing intervals
+            clearInterval(animationInterval);
+            clearInterval(captureInterval);
+    
+            // Restart intervals with new speed
+            animationInterval = setInterval(updateTextAndTracking, intervalTime);
+            captureInterval = setInterval(captureFrame, intervalTime);
+        }
+    });
 
     function captureFrame() {
         const outputDiv = document.getElementById('output');
