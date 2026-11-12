@@ -15,7 +15,20 @@ npm run dev
 Open http://127.0.0.1:5174. `npm run build` creates a portable `dist/` with relative asset
 paths, suitable for static hosting under a subdirectory, including GitHub Pages. Deploy
 **dist**, not the unbuilt repository root. `npm run preview` serves the build on port 4174.
-This change does not publish or change the live site.
+
+## GitHub Pages deployment
+
+`.github/workflows/pages.yml` builds and deploys the site on every push to `main` and can
+also be run manually from Actions. Pull requests run the same checks without deploying.
+The workflow runs the engine tests and production-browser tests, checks that built HTML
+references real bundled assets, and uploads **only `dist/`** to GitHub Pages.
+
+Repository Settings → Pages must use **GitHub Actions** as the publishing source. Serving
+the repository root directly cannot work: the source JavaScript contains CSS/package
+imports that Vite must bundle first. The Pages artifact preserves relative asset paths
+for the `/7Bridges-Diacritic-Generator/` URL. A failed test prevents deployment.
+
+Live site: https://skidbladnr.github.io/7Bridges-Diacritic-Generator/
 
 ## The workshop
 
