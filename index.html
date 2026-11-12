@@ -1,78 +1,77 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <link rel="shortcut icon" href="./public/7bridgesLogo.ico">
-    <meta charset="UTF-8">
-    <title>7 Bridges Text Randomizer</title>
-    <link rel="stylesheet" href="styles.css">
-    <!-- Link to Google Fonts for modern typography -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f5ef"><meta name="description" content="The 7 Bridges lettering workshop. Create, refine and export Vietnamese-ready Brewtura lettering.">
+  <link rel="icon" href="./public/7bridgesLogo.ico"><title>Brewtura Studio · 7 Bridges</title>
 </head>
 <body>
-    <header>
-        <h1>7 Bridges Text Randomizer</h1>
-    </header>
-    
-    <div class="container">
-        <h2>Enter Your Text</h2>
-
-        <div class="input-section">
-            <input type="text" id="userInput" placeholder="Type something here..." />
-            <button id="regenerateText" class="icon-button" title="Regenerate Style">↻</button>
+  <a class="skip-link" href="#text">Skip to editor</a>
+  <header class="site-header">
+    <a href="./" class="brand" aria-label="7 Bridges Brewtura Studio"><span class="brand-seven">7</span><span>BRIDGES<span class="brand-sub">BREWING CO.</span></span></a>
+    <div class="header-divider"></div><span class="header-label">THE LETTERING WORKSHOP</span>
+    <button class="quiet" id="help-button" aria-haspopup="dialog">Quick guide <span aria-hidden="true">↗</span></button>
+  </header>
+  <main>
+    <section class="intro">
+      <div><p class="eyebrow">A LITTLE CHARACTER GOES A LONG WAY</p><h1>Brewtura<span class="title-serif"> Studio.</span><span class="title-dot" aria-hidden="true">✳</span></h1><p class="intro-copy">Your words. Our wonderfully irregular type.</p></div>
+      <p class="intro-note">Made for good beer.<br>And the people behind it.</p>
+    </section>
+    <div class="workspace">
+      <aside class="controls" aria-label="Lettering controls">
+        <section class="control-section">
+          <div class="section-heading"><h2><span class="step">01</span> Make it yours</h2><span id="character-count" class="micro">0 / 200</span></div>
+          <label for="text" class="sr-only">Your text</label>
+          <textarea id="text" rows="3" spellcheck="false" placeholder="Something worth saying…" aria-describedby="text-hint"></textarea>
+          <p id="text-hint" class="hint">Vietnamese accents welcome. Enter adds a new line.</p>
+          <div class="samples" aria-label="Try an example"><button data-sample="Bia ngon.&#10;Bạn tốt.">Bia ngon. Bạn tốt.</button><button data-sample="Hà Nội">Hà Nội</button><button data-sample="GOOD BEER.&#10;GREAT COMPANY.">Good company</button></div>
+        </section>
+        <section class="control-section">
+          <div class="section-heading"><h2><span class="step">02</span> Find your character</h2></div>
+          <fieldset><legend>Personality</legend><div class="preset-options">
+            <button data-preset="calm" aria-pressed="false"><span class="preset-icon calm" aria-hidden="true">Aa</span><strong>Calm</strong><small>A softer mix</small></button>
+            <button data-preset="signature" aria-pressed="true"><span class="preset-icon signature" aria-hidden="true">Aa</span><strong>Signature</strong><small>The house style</small></button>
+            <button data-preset="playful" aria-pressed="false"><span class="preset-icon playful" aria-hidden="true">Aa</span><strong>Playful</strong><small>A little louder</small></button>
+          </div></fieldset>
+          <div class="field"><label for="case-mode">Letter case</label><select id="case-mode"><option value="original">As typed</option><option value="upper">UPPERCASE</option><option value="lower">lowercase</option><option value="mixed">Mixed up</option></select></div>
+          <div class="range-heading"><label for="size">Type size</label><output for="size" id="size-value">96 px</output></div><input id="size" type="range" min="32" max="160" step="1" value="96">
+          <div class="range-heading"><label for="tracking">Letter spacing</label><output for="tracking" id="tracking-value">0 em</output></div><input id="tracking" type="range" min="-0.06" max="0.2" step="0.01" value="0">
+          <div class="field"><span id="align-label">Alignment</span><div class="segmented" role="group" aria-labelledby="align-label"><button data-align="left" aria-pressed="false" aria-label="Align left">⇤</button><button data-align="center" aria-pressed="true" aria-label="Align centre">↔</button><button data-align="right" aria-pressed="false" aria-label="Align right">⇥</button></div></div>
+        </section>
+        <section class="control-section colour-section">
+          <div class="section-heading"><h2><span class="step">03</span> Set the mood</h2></div>
+          <div class="swatches" aria-label="Colour combinations">
+            <button data-palette="house" aria-label="House: ink on cream" aria-pressed="true" style="--swatch:#ecebdf;--ink:#22251f">Aa</button>
+            <button data-palette="citrus" aria-label="Citrus: ink on yellow" aria-pressed="false" style="--swatch:#eeeb77;--ink:#22251f">Aa</button>
+            <button data-palette="sky" aria-label="Sky: ink on blue" aria-pressed="false" style="--swatch:#a2d3e1;--ink:#22251f">Aa</button>
+            <button data-palette="sunset" aria-label="Sunset: cream on orange" aria-pressed="false" style="--swatch:#d95220;--ink:#fff9e8">Aa</button>
+            <button data-palette="night" aria-label="Night: cream on ink" aria-pressed="false" style="--swatch:#22251f;--ink:#fff9e8">Aa</button>
+          </div>
+          <div class="colour-inputs"><label>Lettering<input type="color" id="foreground" value="#22251f"></label><label>Background<input type="color" id="background" value="#ecebdf"></label></div>
+        </section>
+      </aside>
+      <section class="studio" aria-label="Preview and export">
+        <div class="canvas-toolbar"><span class="live-label"><span aria-hidden="true"></span> LIVE PREVIEW</span><div class="history"><button id="undo" class="icon-button" aria-label="Undo" title="Undo (Ctrl/⌘ Z)" disabled>↶</button><button id="redo" class="icon-button" aria-label="Redo" title="Redo (Ctrl/⌘ Shift Z)" disabled>↷</button><span class="toolbar-divider"></span><button id="reset" class="text-button">Reset</button></div></div>
+        <div class="artboard" id="artboard" aria-busy="true">
+          <div class="artboard-corner top-left" aria-hidden="true"></div><div class="artboard-corner bottom-right" aria-hidden="true"></div>
+          <div id="preview" class="preview"><p class="loading">Loading the type workshop…</p></div>
+          <div class="artboard-foot"><span id="dimensions">LOADING FONTS</span><span>CRAFTED WITH BREWTURA</span></div>
         </div>
-
-        <button id="advancedOptionsToggle" class="toggle-button">Advanced Options +</button>
-        <div id="advancedOptions" class="advanced-options">
-            <label><input type="checkbox" id="caseRandomizationCheckbox"> Randomize Case</label>
-            <label><input type="checkbox" id="toggleDisplayCheckbox"> Add Flex</label>
-            <label><input type="checkbox" id="toggleGifMode"> GIF Mode</label>
-        </div>
-
-        <div id="animationSpeedControl" style="display: none; margin-top: 15px;">
-            <label for="animationSpeedRange">Animation Speed: <span id="animationSpeedValue">1</span> sec/frame</label>
-            <input type="range" id="animationSpeedRange" min="0.1" max="5" step="0.1" value="1">
-        </div>
-
-        <div id="output"></div>
-
-        <div class="button-group">
-            <div class="download-container">
-                <button id="downloadButton" class="primary-button">Download</button>
-                <div id="formatDropdown" class="dropdown-menu">
-                    <a href="#" id="downloadSVG">SVG</a>
-                    <a href="#" id="downloadPNG">PNG</a>
-                </div>
-            </div>
-            <button id="startGif" class="primary-button gif-button" style="display: none;">Start GIF Animation</button>
-            <button id="stopGif" class="primary-button gif-button" style="display: none;">Stop and Save GIF</button>
-        </div>
+        <div class="remix-bar"><div><strong>Same words. A fresh personality.</strong><p>Remix the letters until it feels just right.</p></div><button class="primary" id="remix"><span aria-hidden="true">⤨</span> Remix lettering</button></div>
+        <p class="notice" id="notice" role="status" aria-live="polite"></p>
+        <section class="export-panel" aria-labelledby="export-title">
+          <div class="export-heading"><div><p class="eyebrow">READY WHEN YOU ARE</p><h2 id="export-title">Take it out into the world.</h2></div><span class="export-arrow" aria-hidden="true">↗</span></div>
+          <div class="export-controls"><div class="export-format"><label for="format">File format</label><select id="format"><option value="svg">SVG · vector artwork</option><option value="png">PNG · high resolution</option><option value="gif">GIF · animated loop</option></select></div><div class="export-scale" id="scale-field"><label for="scale">Resolution</label><select id="scale"><option value="1">1×</option><option value="2" selected>2×</option><option value="3">3×</option></select></div><button class="primary export-button" id="download" disabled>Download SVG <span aria-hidden="true">↓</span></button></div>
+          <div class="export-options"><label><input type="checkbox" id="transparent" checked> Transparent background</label><span id="export-note">Outlined artwork. No font installation needed.</span></div>
+          <div id="animation-options" hidden><div class="field"><label for="speed">Time per frame</label><select id="speed"><option value="250">0.25 seconds</option><option value="500" selected>0.5 seconds</option><option value="1000">1 second</option><option value="2000">2 seconds</option></select></div><p class="hint">8 variations, one seamless loop. GIF uses your background colour.</p></div>
+          <div class="export-progress" id="export-progress" hidden><progress id="progress" max="100" value="0" aria-label="Export progress"></progress><button id="cancel-export" class="text-button">Cancel export</button></div>
+        </section>
+        <div class="project-bar"><p><span class="saved-dot" aria-hidden="true">●</span> <span id="save-status">Saved on this device</span></p><div><button id="save-project" class="text-button">Save project</button><button id="open-project" class="text-button">Open project</button><input type="file" id="project-file" accept=".json,application/json" hidden></div></div>
+      </section>
     </div>
-
-    <footer>
-        <p>&copy; <a href="#" id="footerVersion">Version 0.3.7</a></p>
-    </footer>    
-    <script src="scripts/gif.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="script.js"></script>
-
-    <!-- Changelog Modal -->
-    <div id="changelogModal" class="modal">
-        <div class="modal-content">
-            <span class="close-button" id="closeChangelog">&times;</span>
-            <h2>Changelog</h2>
-            <ul>
-                <li><strong>Version 0.3.7</strong> - Added a changelog to record changes.</li>
-                <li><strong>Version 0.3.6.1</strong> - Fixed an issue with GIF generation.</li>
-                <li><strong>Version 0.3.6</strong> - Added sentence tracking adjustment using left and right arrow keys.</li>
-                <li><strong>Version 0.3.5</strong> - Improved font weight transitions between characters. </li>
-                <li><strong>Version 0.3.4</strong> - Prevented the first character of each generation from utilizing certain fonts.</li>
-                <li><strong>Version 0.3.3</strong> - Added a speed control function for gif animation.</li>
-                <li><strong>Version 0.3</strong> - Improved UI, certain code components reconfigured for understandability and cleanliness.</li>
-                <li><strong>Version 0.2.5</strong> - Added gif mode, allowing users to animate randomized fonts and save them as a gif.</li>
-                <!-- Add more entries as needed -->
-            </ul>
-        </div>
-    </div>
-    <button id="openChangelog" class="secondary-button">View Changelog</button>
+    <footer><span>7 BRIDGES · INDEPENDENT SPIRIT, BY DESIGN.</span><span>Brewtura Studio <span class="version">01</span></span></footer>
+  </main>
+  <dialog id="help"><div class="dialog-heading"><p class="eyebrow">A QUICK POUR</p><button id="close-help" class="icon-button" aria-label="Close guide">×</button></div><h2>Good type, without the guesswork.</h2><ol><li><strong>Write something.</strong> English and Vietnamese are both at home here. Add line breaks for stacked artwork.</li><li><strong>Find a style.</strong> Pick a personality, adjust spacing and colour, then remix. Your letters stay put while you fine-tune.</li><li><strong>Make it useful.</strong> SVG stays crisp at any size. PNG is ready for layouts. GIF cycles through eight styles.</li></ol><p>Save a project to share or revisit an exact design. Your current draft is also saved in this browser.</p><p class="hint">Ctrl/⌘ + Enter remixes. Use Undo and Redo to compare. Text editing keeps its normal keyboard shortcuts.</p><button id="help-done" class="primary">Let’s make something</button></dialog>
+  <script type="module" src="./script.js"></script>
 </body>
 </html>

@@ -1,0 +1,11 @@
+@font-face { font-family: "Brewtura light"; src: url("./fonts/SFUFuturaLight.TTF") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: "Brewtura light-oblique"; src: url("./fonts/SFUFuturaLightOblique.TTF") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: "Brewtura book"; src: url("./fonts/SFUFuturaBook.TTF") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: "Brewtura book-oblique"; src: url("./fonts/SFUFuturaBookOblique.TTF") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: "Brewtura regular"; src: url("./fonts/SFUFuturaRegular.TTF") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: "Brewtura heavy"; src: url("./fonts/SFUFuturaHeavy.TTF") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: "Brewtura heavy-oblique"; src: url("./fonts/SFUFuturaHeavyOblique.TTF") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: "Brewtura bold"; src: url("./fonts/SFUFuturaBold.TTF") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: "Brewtura bold-oblique"; src: url("./fonts/SFUFuturaBoldOblique.TTF") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: "Brewtura extra-bold"; src: url("./fonts/SFUFuturaExtraBold.TTF") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: "Brewtura extra-bold-oblique"; src: url("./fonts/SFUFuturaExtraBoldOblique.TTF") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
