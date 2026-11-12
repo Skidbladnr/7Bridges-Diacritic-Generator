@@ -1,0 +1,14 @@
+{
+  "name": "@7bridges/brewtura",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Deterministic, Unicode-aware Brewtura lettering for 7 Bridges tools and menus.",
+  "exports": {
+    ".": { "types": "./index.d.ts", "default": "./index.js" },
+    "./dom": { "types": "./dom.d.ts", "default": "./dom.js" },
+    "./fonts.css": "./fonts.css",
+    "./fonts/*": "./fonts/*"
+  },
+  "files": ["index.js", "index.d.ts", "dom.js", "dom.d.ts", "fonts.css", "fonts", "README.md"],
+  "sideEffects": ["./fonts.css"]
+}
